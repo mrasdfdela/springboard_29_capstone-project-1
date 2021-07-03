@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div>
+    <h1>Hello world!</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel risus semper, consequat turpis et, tempor turpis.
+    Nulla facilisi. Quisque commodo semper quam in vehicula. Donec elementum est non tincidunt mattis. Pellentesque sed
+    dignissim tellus, sed consequat nunc. In laoreet nisl id ligula aliquet, in luctus nibh sodales. Nam eget tempor felis,
+    sit amet tincidunt ipsum. Ut at bibendum erat. Nulla sollicitudin pharetra dui, id congue tortor fermentum id. Ut
+    iaculis diam euismod tortor consequat, eget facilisis nisi malesuada. Pellentesque eu lorem dui.</p>
+  </div>
+  {% for player in player_data %}
+  <p>{{ player['first_name'] }} {{ player['last_name'] }}</p>
+  {% endfor %}
+{% endblock %}
