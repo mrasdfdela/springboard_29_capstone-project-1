@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request
-import requests, controllers
+from flask import Flask, render_template, redirect, request, session, g, flash
+import requests
+from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 
 # from forms import 
 import helpers
 from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlayer
-# from controllers import c_homepage
+from forms import AddUserForm, AddNotePlayer, AddNoteTeam
 from helpers import get_player_by_id
 
 CURR_USER_KEY = "curr_user"
@@ -22,6 +23,46 @@ connect_db(app)
 app.config['SECRET_KEY'] = 'I have a secret'
 
 debug = DebugToolbarExtension(app)
+
+# User signup/login/logout
+@app.before_request
+def add_user_to_g():
+    """Check if logged in; add curr user to Flask global variable"""
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
+    else:
+        g.user = None
+
+def do_login(user):
+    """Login user"""
+    session[CURR_USER_KEY] = user.id
+
+def do_logout():
+    """Logout user"""
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    """Handle user signup"""
+    form = AddUserForm()
+    if form.validate_on_submit():
+        try:
+            user = User.signup(
+                username = form.username.data,
+                email = form.email.data,
+                password = form.password.data
+            )
+            import pdb
+            pdb.set_trace()
+            db.session.commit()
+        except IntegrityError:
+            flash("Username already taken", "danger")
+            return render_template('users/signup.html', form=form)
+        do_login(user)
+        return redirect('/')
+    else:
+        return render_template("signup.html", form=form)
 
 @app.route('/', methods=['GET','POST'])
 def homepage():
