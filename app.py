@@ -25,7 +25,7 @@ connect_db(app)
 
 app.config['SECRET_KEY'] = 'I have a secret'
 
-debug = DebugToolbarExtension(app)
+# debug = DebugToolbarExtension(app)
 
 # User signup/login/logout
 @app.before_request
@@ -90,3 +90,11 @@ def show_player(player_id):
         return render_template('player.html', player=player)
     else:
         return redirect("/")
+
+@app.route('/user/<int:user_id>')
+def show_user(user_id):
+    if user_id == g.user.id:
+        # pdb.set_trace()
+        return render_template('user.html',user=g.user)
+    else:
+        return redirect(f"/user/{g.user.id}")

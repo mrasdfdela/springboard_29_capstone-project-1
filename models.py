@@ -43,7 +43,7 @@ class FavTeam(db.Model):
         db.ForeignKey('users.id'),
         nullable=False, 
         primary_key=True)
-    player_id = db.Column(
+    team_id = db.Column(
         db.Integer, 
         nullable=False, 
         primary_key=True)
@@ -58,7 +58,7 @@ class FavPlayer(db.Model):
         db.ForeignKey('users.id'),
         nullable=False, 
         primary_key=True)
-    team_id = db.Column(
+    player_id = db.Column(
         db.Integer, 
         nullable=False, 
         primary_key=True)

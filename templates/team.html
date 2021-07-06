@@ -2,7 +2,11 @@
 
 {% block content %}
   <div>
-    <h1>{{ team['full_name'] }}!</h1>
+    <h1>{{ team['full_name'] }}
+      <button class="btn btn-default">
+        <i class="far fa-star"></i>
+      </button>
+    </h1>
     <h3>Conference: {{ team['conference'] }}</h3>
     <h3>Division: {{ team['division'] }}</h3>
   </div>

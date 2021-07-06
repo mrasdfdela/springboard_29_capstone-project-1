@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+  <h1>{{ user['username'] }}</h1>
+  <h2>Favorite Players</h2>
+  <ul>
+    {% for player in user['favplayers'] %}
+    {% endfor %}
+  </ul>
+  <h2>Favorite Teams</h2>
+  <ul>
+    {% for player in user['favteams'] %}
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
