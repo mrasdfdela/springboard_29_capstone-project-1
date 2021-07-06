@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ player['first_name'] }} {{ player['last_name'] }}</h1>
+  <p>Position: {{ player['position'] }}</p>
+  <p>Height: {{ player['height_feet'] }}'{{ player['height_inches'] }}"</p>
+  <p>Weight: {{ player['weight_pounds'] }}-lbs</p>
+  <p>Team: <a href='/team/{{ player["team"]["id"] }}'>{{ player['team']['full_name'] }}</a></p>
+{% endblock %}

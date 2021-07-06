@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, session, g, flash
 import requests
+from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -7,7 +8,9 @@ from flask_debugtoolbar import DebugToolbarExtension
 import helpers
 from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlayer
 from forms import AddUserForm, AddNotePlayer, AddNoteTeam
-from helpers import get_player_by_id
+from helpers import get_player_by_id, get_team_by_id, get_recent_games, convert_gameday_format
+
+import pdb
 
 CURR_USER_KEY = "curr_user"
 app = Flask(__name__)
@@ -53,8 +56,6 @@ def signup():
                 email = form.email.data,
                 password = form.password.data
             )
-            import pdb
-            pdb.set_trace()
             db.session.commit()
         except IntegrityError:
             flash("Username already taken", "danger")
@@ -64,8 +65,28 @@ def signup():
     else:
         return render_template("signup.html", form=form)
 
+
+
+# Show routes
 @app.route('/', methods=['GET','POST'])
 def homepage():
-    player_ids = [237, 117, 448]
-    player_data = [get_player_by_id(id) for id in player_ids]
-    return render_template('index.html', player_data=player_data)
+    recent_games = get_recent_games(5)['data']
+    games = convert_gameday_format(recent_games)
+    return render_template('index.html', games=games)
+
+@app.route('/team/<int:team_id>')
+def show_team(team_id):
+    """Show team profile"""
+    team = get_team_by_id(team_id)
+    if team:
+        return render_template("team.html", team=team)
+    else:
+        return redirect("/")
+
+@app.route('/player/<int:player_id>')
+def show_player(player_id):
+    player = get_player_by_id(player_id)
+    if player:
+        return render_template('player.html', player=player)
+    else:
+        return redirect("/")
