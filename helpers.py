@@ -2,6 +2,8 @@ from flask import Flask, jsonify
 import requests
 from datetime import datetime, timedelta
 
+from models import User, FavTeam, FavPlayer
+
 import pdb
 
 def get_player_by_id(id):
@@ -10,6 +12,11 @@ def get_player_by_id(id):
         return resp.json()
     except:
         return None
+
+def get_user_favteam_ids(user_id):
+    teams = User.query.get(user_id).favteams
+    team_ids = [ team.team_id for team in teams ]
+    return team_ids
 
 def get_team_by_id(id):
     try:

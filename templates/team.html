@@ -3,8 +3,12 @@
 {% block content %}
   <div>
     <h1>{{ team['full_name'] }}
-      <button class="btn btn-default">
-        <i class="far fa-star"></i>
+      <button class="btn btn-default like-team" data-team-id="{{ team['id']}}" >
+        {% if team['id'] in team_ids %}
+          <i class="fas fa-star"></i>
+        {% else %}
+          <i class="far fa-star"></i>
+        {% endif %}
       </button>
     </h1>
     <h3>Conference: {{ team['conference'] }}</h3>

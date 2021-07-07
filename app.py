@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session, g, flash
+from flask import Flask, render_template, redirect, request, session, g, flash, jsonify
 import requests
 from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
@@ -8,7 +8,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import helpers
 from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlayer
 from forms import AddUserForm, AddNotePlayer, AddNoteTeam
-from helpers import get_player_by_id, get_team_by_id, get_recent_games, convert_gameday_format
+from helpers import get_player_by_id, get_user_favteam_ids, get_team_by_id, get_recent_games, convert_gameday_format
 
 import pdb
 
@@ -78,10 +78,18 @@ def homepage():
 def show_team(team_id):
     """Show team profile"""
     team = get_team_by_id(team_id)
+    team_ids = [ team.team_id for team in g.user.favteams ]
     if team:
-        return render_template("team.html", team=team)
+        return render_template("team.html", team=team, team_ids=team_ids)
     else:
         return redirect("/")
+
+@app.route('/user/<int:user_id>')
+def show_user(user_id):
+    if user_id == g.user.id:
+        return render_template('user.html',user=g.user)
+    else:
+        return redirect(f"/user/{g.user.id}")
 
 @app.route('/player/<int:player_id>')
 def show_player(player_id):
@@ -91,10 +99,30 @@ def show_player(player_id):
     else:
         return redirect("/")
 
-@app.route('/user/<int:user_id>')
-def show_user(user_id):
-    if user_id == g.user.id:
-        # pdb.set_trace()
-        return render_template('user.html',user=g.user)
+
+@app.route('/user/<int:user_id>/fav_team', methods=['POST','DELETE'])
+def fav_team(user_id):
+    if request.method == 'POST' and user_id == g.user.id:
+        try:
+            fav_team = FavTeam(
+              user_id = user_id,
+              team_id = request.json['params']['team_id']
+            )
+            db.session.add(fav_team)
+            db.session.commit()
+
+            team_ids = get_user_favteam_ids(user_id)
+            return jsonify(team_ids),201
+        except:
+            return redirect(f'/user/{g.user.id}')
+    elif request.method == 'DELETE' and user_id == g.user.id:
+        try:
+            FavTeam.query.filter_by(user_id=user_id, team_id=request.args['team_id']).delete()
+            db.session.commit()
+
+            team_ids = get_user_favteam_ids(user_id)
+            return jsonify(team_ids),201
+        except:
+            return redirect(f'/user/{g.user.id}')
     else:
-        return redirect(f"/user/{g.user.id}")
+        return redirect('/')
