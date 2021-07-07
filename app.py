@@ -3,11 +3,12 @@ import requests
 from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
+from wtforms.fields.simple import PasswordField
 
 # from forms import 
 import helpers
 from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlayer
-from forms import AddUserForm, AddNotePlayer, AddNoteTeam
+from forms import AddUserForm, LoginForm, AddNotePlayer, AddNoteTeam
 from helpers import get_player_by_id, get_team_by_id,get_game_by_id, get_user_favteam_ids, get_user_favplayer_ids,  get_recent_games, convert_gameday_format
 
 import pdb
@@ -65,6 +66,30 @@ def signup():
     else:
         return render_template("signup.html", form=form)
 
+@app.route('/login',methods=['GET','POST'])
+def login():
+  form = LoginForm()
+  if form.validate_on_submit():
+      user = User.authenticate(
+          form.username.data,
+          form.password.data
+      )
+      pdb.set_trace()
+      if user:
+          do_login(user)
+          flash(f"Hello, {user.username}!", "success")
+          return redirect('/')
+      else:
+          flash("Invalid credentials", "danger")
+  return render_template('login.html', form=form)
+
+@app.route('/logout',methods=['GET','POST'])
+def logout():
+  """Log user out of the system."""
+  if CURR_USER_KEY in session:
+      del session[CURR_USER_KEY]
+      flash ("Logged out.", "danger")
+  return redirect('/')
 
 
 # Show routes
@@ -77,7 +102,12 @@ def homepage():
 @app.route('/user/<int:user_id>')
 def show_user(user_id):
     if user_id == g.user.id:
-        return render_template('user.html',user=g.user)
+        team_ids = get_user_favteam_ids(user_id)
+        teams = [ get_team_by_id(id) for id in team_ids]
+
+        player_ids = get_user_favplayer_ids(user_id)
+        players = [ get_player_by_id(id) for id in player_ids]
+        return render_template('user.html', user=g.user, players=players, teams=teams)
     else:
         return redirect(f"/user/{g.user.id}")
 

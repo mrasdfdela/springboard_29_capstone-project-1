@@ -14,4 +14,7 @@
   <p>Height: {{ player['height_feet'] }}'{{ player['height_inches'] }}"</p>
   <p>Weight: {{ player['weight_pounds'] }}-lbs</p>
   <p>Team: <a href='/team/{{ player["team"]["id"] }}'>{{ player['team']['full_name'] }}</a></p>
+  <form>
+    <input type="button" value="&#8592 Back" onclick="history.back()">
+  </form>
 {% endblock %}

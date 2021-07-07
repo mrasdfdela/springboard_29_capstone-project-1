@@ -8,6 +8,11 @@ class AddUserForm(FlaskForm):
     email = StringField('E-mail', validators=[Email()])
     password = PasswordField('Password', validators=[Length(min=6)])
 
+class LoginForm(FlaskForm):
+    """Login form"""
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+
 class AddNotePlayer(FlaskForm):
     """Form for adding user notes about Player"""
     note = TextAreaField("Player Note")

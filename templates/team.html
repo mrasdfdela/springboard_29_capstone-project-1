@@ -17,4 +17,7 @@
   {% for player in player_data %}
   <p>{{ player['first_name'] }} {{ player['last_name'] }}</p>
   {% endfor %}
+  <form>
+    <input type="button" value="&#8592 Back" onclick="history.back()">
+  </form>
 {% endblock %}
