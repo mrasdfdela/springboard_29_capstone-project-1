@@ -18,6 +18,11 @@ def get_user_favteam_ids(user_id):
     team_ids = [ team.team_id for team in teams ]
     return team_ids
 
+def get_user_favplayer_ids(user_id):
+    players = User.query.get(user_id).favplayers
+    player_ids = [ player.player_id for player in players ]
+    return player_ids
+
 def get_team_by_id(id):
     try:
         resp = requests.get(

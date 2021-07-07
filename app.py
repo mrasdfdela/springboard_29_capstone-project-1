@@ -8,7 +8,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import helpers
 from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlayer
 from forms import AddUserForm, AddNotePlayer, AddNoteTeam
-from helpers import get_player_by_id, get_user_favteam_ids, get_team_by_id, get_recent_games, convert_gameday_format
+from helpers import get_player_by_id, get_user_favteam_ids, get_user_favplayer_ids, get_team_by_id, get_recent_games, convert_gameday_format
 
 import pdb
 
@@ -74,16 +74,6 @@ def homepage():
     games = convert_gameday_format(recent_games)
     return render_template('index.html', games=games)
 
-@app.route('/team/<int:team_id>')
-def show_team(team_id):
-    """Show team profile"""
-    team = get_team_by_id(team_id)
-    team_ids = [ team.team_id for team in g.user.favteams ]
-    if team:
-        return render_template("team.html", team=team, team_ids=team_ids)
-    else:
-        return redirect("/")
-
 @app.route('/user/<int:user_id>')
 def show_user(user_id):
     if user_id == g.user.id:
@@ -94,11 +84,50 @@ def show_user(user_id):
 @app.route('/player/<int:player_id>')
 def show_player(player_id):
     player = get_player_by_id(player_id)
+    fav_player_ids = [ player.player_id for player in g.user.favplayers ]
     if player:
-        return render_template('player.html', player=player)
+        return render_template('player.html', player=player, player_ids = fav_player_ids)
     else:
         return redirect("/")
 
+@app.route('/team/<int:team_id>')
+def show_team(team_id):
+    """Show team profile"""
+    team = get_team_by_id(team_id)
+    fav_team_ids = [ team.team_id for team in g.user.favteams ]
+    if team:
+        return render_template("team.html", team=team, team_ids=fav_team_ids)
+    else:
+        return redirect("/")
+
+# Like / Unlike routes
+@app.route('/user/<int:user_id>/fav_player', methods=['POST','DELETE'])
+def fav_player(user_id):
+    # pdb.set_trace()
+    if request.method == 'POST' and user_id == g.user.id:
+        try:
+            fav_player = FavPlayer(
+              user_id = user_id,
+              player_id = request.json['params']['player_id']
+            )
+            db.session.add(fav_player)
+            db.session.commit()
+
+            player_ids = get_user_favplayer_ids(user_id)
+            return jsonify(player_ids),201
+        except:
+            return redirect(f'/user/{g.user.id}')
+    elif request.method == 'DELETE' and user_id == g.user.id:
+        try:
+            FavPlayer.query.filter_by(user_id=user_id, player_id=request.args['player_id']).delete()
+            db.session.commit()
+
+            player_ids = get_user_favplayer_ids(user_id)
+            return jsonify(player_ids),201
+        except:
+            return redirect(f'/user/{g.user.id}')
+    else:
+        return redirect('/')
 
 @app.route('/user/<int:user_id>/fav_team', methods=['POST','DELETE'])
 def fav_team(user_id):

@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>{{ player['first_name'] }} {{ player['last_name'] }}</h1>
+  <h1>{{ player['first_name'] }} {{ player['last_name'] }}
+    <button class="btn btn-default like-player" data-player-id="{{ player['id']}}">
+      {% if player['id'] in player_ids %}
+      <i class="fas fa-star"></i>
+      {% else %}
+      <i class="far fa-star"></i>
+      {% endif %}
+    </button>
+  </h1>
   <p>Position: {{ player['position'] }}</p>
   <p>Height: {{ player['height_feet'] }}'{{ player['height_inches'] }}"</p>
   <p>Weight: {{ player['weight_pounds'] }}-lbs</p>
