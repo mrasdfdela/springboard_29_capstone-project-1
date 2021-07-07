@@ -13,6 +13,23 @@ def get_player_by_id(id):
     except:
         return None
 
+def get_team_by_id(id):
+    try:
+        resp = requests.get(
+          f"https://www.balldontlie.io/api/v1/teams/{id}",
+        )
+        return resp.json()
+    except:
+        return None
+
+def get_game_by_id(id):
+    try:
+        resp = requests.get(
+          f"https://www.balldontlie.io/api/v1/games/{id}")
+        return resp.json()
+    except:
+        return None
+
 def get_user_favteam_ids(user_id):
     teams = User.query.get(user_id).favteams
     team_ids = [ team.team_id for team in teams ]
@@ -22,15 +39,6 @@ def get_user_favplayer_ids(user_id):
     players = User.query.get(user_id).favplayers
     player_ids = [ player.player_id for player in players ]
     return player_ids
-
-def get_team_by_id(id):
-    try:
-        resp = requests.get(
-          f"https://www.balldontlie.io/api/v1/teams/{id}",
-        )
-        return resp.json()
-    except:
-        return None
 
 def get_recent_games(days):
     try:
@@ -44,7 +52,11 @@ def get_recent_games(days):
         return None
 
 def str_to_date(str):
-    date = datetime.strptime(str, "%Y-%m-%dT%H:%M:%S.%fZ")
+    for dt_format in ("%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%d %H:%M:%S UTC"):
+        try:
+            date = datetime.strptime(str, dt_format)
+        except:
+            pass
     return date.strftime("%A, %B %d")
 
 def convert_gameday_format(games):

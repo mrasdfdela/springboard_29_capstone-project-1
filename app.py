@@ -8,7 +8,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import helpers
 from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlayer
 from forms import AddUserForm, AddNotePlayer, AddNoteTeam
-from helpers import get_player_by_id, get_user_favteam_ids, get_user_favplayer_ids, get_team_by_id, get_recent_games, convert_gameday_format
+from helpers import get_player_by_id, get_team_by_id,get_game_by_id, get_user_favteam_ids, get_user_favplayer_ids,  get_recent_games, convert_gameday_format
 
 import pdb
 
@@ -83,6 +83,7 @@ def show_user(user_id):
 
 @app.route('/player/<int:player_id>')
 def show_player(player_id):
+    """Show player profile"""
     player = get_player_by_id(player_id)
     fav_player_ids = [ player.player_id for player in g.user.favplayers ]
     if player:
@@ -100,10 +101,19 @@ def show_team(team_id):
     else:
         return redirect("/")
 
+@app.route('/game/<int:game_id>')
+def show_game(game_id):
+    """Show game details"""
+    game = get_game_by_id(game_id)
+    game = convert_gameday_format([game])[0]
+    if game:
+        return render_template("game.html", game=game)
+    else:
+        return redirect("/")
+
 # Like / Unlike routes
 @app.route('/user/<int:user_id>/fav_player', methods=['POST','DELETE'])
 def fav_player(user_id):
-    # pdb.set_trace()
     if request.method == 'POST' and user_id == g.user.id:
         try:
             fav_player = FavPlayer(

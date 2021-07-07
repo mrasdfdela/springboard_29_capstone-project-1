@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+  <h1>{{ game['home_team']['full_name'] }} {{ game['home_team_score'] }} -
+  {{ game['visitor_team']['full_name'] }} {{ game['visitor_team_score'] }}</h1>
+  <p>Final Score</p>
+  <h3>{{ game['date'] }}</h3>
+</div>
+<p>Notes:
+  {% if game['postseason'] %}
+    {{ game['home_team']['conference'] }}ern Conference Playoffs
+  {% else %}
+    {% if game['home_team']['conference'] == game['visitor_team']['conference'] %}
+      In-conference game
+    {% endif %}
+    {% if game['home_team']['division'] == game['visitor_team']['division'] %}
+      In-division game
+    {% endif %}
+  {% endif %}
+</p>
+{% endblock %}
