@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ player['first_name'] }} {{ player['last_name'] }}
+    <button class="btn btn-default like-player" data-player-id="{{ player['id']}}">
+      {% if player['id'] in player_ids %}
+      <i class="fas fa-star"></i>
+      {% else %}
+      <i class="far fa-star"></i>
+      {% endif %}
+    </button>
+  </h1>
+  <p>Position: {{ player['position'] }}</p>
+  <p>Height: {{ player['height_feet'] }}'{{ player['height_inches'] }}"</p>
+  <p>Weight: {{ player['weight_pounds'] }}-lbs</p>
+  <p>Team: <a href='/team/{{ player["team"]["id"] }}'>{{ player['team']['full_name'] }}</a></p>
+  <p>Stats:</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope='col'>Yr</th>
+        <th scope='col'>GP</th>
+        <th scope='col'>min</th>
+        <th scope='col'>fga/m</th>
+        <th scope='col'>fg%</th>
+        <th scope='col'>3ptm/a</th>
+        <th scope='col'>3pt%</th>
+        <th scope='col'>ftm/a</th>
+        <th scope='col'>ft%</th>
+        <th scope='col'>oreb</th>
+        <th scope='col'>dreb</th>
+        <th scope='col'>reb</th>
+        <th scope='col'>ast</th>
+        <th scope='col'>stl</th>
+        <th scope='col'>blk</th>
+        <th scope='col'>TO</th>
+        <th scope='col'>PF</th>
+        <th scope='col'>pts</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in season_avg %}
+      <tr>
+        <td>{{ s['season'] }}</td>
+        <td>{{ s['games_played'] }}</td>
+        <td>{{ s['min'] }}</td>
+        <td>{{ s['fgm'] }}/{{ s['fga'] }}</td>
+        <td>{{ s['fg_pct'] }}%</td>
+        <td>{{ s['fg3m'] }}/{{ s['fg3a'] }}</td>
+        <td>{{ s['fg3_pct'] }}%</td>
+        <td>{{ s['ftm'] }}/{{ s['fta'] }}</td>
+        <td>{{ s['ft_pct'] }}%</td>
+        <td>{{ s['oreb'] }}</td>
+        <td>{{ s['dreb'] }}</td>
+        <td>{{ s['reb'] }}</td>
+        <td>{{ s['ast'] }}</td>
+        <td>{{ s['stl'] }}</td>
+        <td>{{ s['blk'] }}</td>
+        <td>{{ s['turnover'] }}</td>
+        <td>{{ s['pf'] }}</td>
+        <td>{{ s['pts'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <form>
+    <input type="button" value="&#8592 Back" onclick="history.back()">
+  </form>
+{% endblock %}

@@ -8,13 +8,13 @@
   <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
   <script src="https://unpkg.com/jquery"></script>
-  <script src="https://unpkg.com/bootstrap"></script>
+  <script src="https://unpkg.com/bootstrap@5.0.2/dist/js/bootstrap.js"></script>
   <link rel="icon" type="ico" href="/static/logo.ico">
 </head>
-<body>
+<body data-user-id="{{ g.user.id }}">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"><img src="/static/lebron_jr.jpg" style="max-height:25px"></a>
+      <a class="navbar-brand ms-5" href="/"><img src="/static/lebron_jr.jpg" style="max-height:25px"></a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -24,7 +24,9 @@
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li> -->
         </ul>
-        <ul class="nav navbar-nav navbar-right me-auto mb-2 mb-lg-0">
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto me-5 mb-2 mb-lg-0"">
           {% if not g.user %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/signup">Sign up</a>
@@ -63,9 +65,7 @@
     {% block content %}
     {% endblock %}
   </div>
-  <script src="https://unpkg.com/jquery"></script>
-  <script src="https://unpkg.com/bootstrap"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
-  <script src="/static/scripts.js"></script>
+  <script src="../static/scripts.js"></script>
 </body>
 </html>

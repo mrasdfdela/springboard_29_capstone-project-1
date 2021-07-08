@@ -2,8 +2,17 @@
 
 {% block content %}
 <div>
-  <h1>{{ game['home_team']['full_name'] }} {{ game['home_team_score'] }} -
-  {{ game['visitor_team']['full_name'] }} {{ game['visitor_team_score'] }}</h1>
+  <h1>
+    <a href="/team/{{ game['home_team']['id'] }}">
+      {{ game['home_team']['full_name'] }}
+    </a> {{ game['home_team_score'] }} 
+    to
+    <a href="/team/{{ game['visitor_team']['id'] }}">
+      {{ game['visitor_team']['full_name'] }}
+    </a> {{ game['visitor_team_score'] }}
+    
+  </h1>
+    
   <p>Final Score</p>
   <h3>{{ game['date'] }}</h3>
 </div>

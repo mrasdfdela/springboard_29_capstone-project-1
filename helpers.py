@@ -51,6 +51,16 @@ def get_recent_games(days):
     except:
         return None
 
+def get_seas_avgs(id):
+    try:
+        resp = requests.get(f"https://www.balldontlie.io/api/v1/season_averages",
+        params = {
+          "player_ids[]": [id]
+        })
+        return resp.json()['data']
+    except:
+        return None
+
 def str_to_date(str):
     for dt_format in ("%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%d %H:%M:%S UTC"):
         try:
@@ -66,9 +76,9 @@ def convert_gameday_format(games):
     return new_games
 
 
-def serialize_player(player_json):
-    return {
-      "id": player_json['id'],
-      "first_name": player_json['first_name'],
-      "last_name": player_json['last_name']
-    }
+# def serialize_player(player_json):
+#     return {
+#       "id": player_json['id'],
+#       "first_name": player_json['first_name'],
+#       "last_name": player_json['last_name']
+#     }
