@@ -15,10 +15,22 @@
     <h3>Division: {{ team['division'] }}</h3>
   </div>
   <div>
+  <h3>Player Notes</h3>
+  <form method='post'>
+    {{ form.hidden_tag() }}
+    {% for field in form if field.widget.input_type != 'hidden' %}
+      {{ field.label }}
+      {{ field }}
+    {% endfor %}
+    <button>Submit</button>
+    <button>Cancel</button>
+  </form>
+  
+
   {% if games|length == 0 %}
     <h3>No Recent Games</h3>
   {% else %}
-    <h1>Latest Games</h1>
+    <h3>Latest Games</h3>
     <ul>
       {% for game in games %}
       <li>

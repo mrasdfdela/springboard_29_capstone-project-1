@@ -58,3 +58,30 @@ bk = FavTeam(
 
 db.session.add_all([lebron, kyrie, durant, harden, cavs, lakers, okc, bk])
 db.session.commit()
+
+lebron_note = NotePlayer(
+  user_id = 1,
+  player_id = 237,
+  note = 'GOAT, baby, or baby goat?'
+)
+
+kyrie_note = NotePlayer(
+  user_id = 2,
+  player_id = 228,
+  note = 'The world is flat'
+)
+
+brooklyn_note = NoteTeam(
+  user_id = 1,
+  team_id = 3,
+  note = 'Former known as the New Jersey Nets.'
+)
+
+cavs_note = NoteTeam(
+  user_id = 2,
+  team_id = 6,
+  note = "What's the difference between Miami and Cleveland? It's the same."
+)
+
+db.session.add_all([lebron_note,kyrie_note,brooklyn_note,cavs_note])
+db.session.commit()

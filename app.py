@@ -112,33 +112,68 @@ def show_user(user_id):
 @app.route('/player/<int:player_id>')
 def show_player(player_id):
     """Show player profile"""
-    fav_player_ids = [ p.player_id for p in g.user.favplayers ]
-    player = get_player_by_id(player_id)
-    seas_stats = get_player_stats_seas(player_id)
-    season_avg = get_seas_avgs(player_id)
+    try:
+        player_note = NotePlayer.query.filter_by(user_id=g.user.id, player_id=player_id)
+        form = AddNotePlayer(obj=player_note.all()[0])
+    except:
+        form = AddNotePlayer()
 
-    if player:
-        return render_template(
-          'player/player.html', 
-          player_ids = fav_player_ids,
-          player = player, 
-          season_avg = season_avg,
-          latest_games = seas_stats[:5])
+    if form.validate_on_submit():
+        player_note.delete()
+        note = NotePlayer(
+            user_id=g.user.id,
+            player_id=player_id,
+            note=form.note.data)
+        db.session.add(note)
+        db.session.commit()
+        flash("Note added!","success")
+        return redirect(f"/player/{player_id}")
     else:
-        return redirect("/")
+        fav_player_ids = [ p.player_id for p in g.user.favplayers ]
+        player = get_player_by_id(player_id)
+        seas_stats = get_player_stats_seas(player_id)
+        season_avg = get_seas_avgs(player_id)
 
-@app.route('/team/<int:team_id>')
+        if player:
+            return render_template(
+              'player/player.html', 
+              player_ids = fav_player_ids,
+              player = player, 
+              season_avg = season_avg,
+              latest_games = seas_stats[:5],
+              form=form)
+        else:
+            return redirect("/")
+
+@app.route('/team/<int:team_id>', methods=['GET','POST'])
 def show_team(team_id):
     """Show team profile"""
-    team = get_team_by_id(team_id)
-    fav_team_ids = [ team.team_id for team in g.user.favteams ]
+    try:
+        team_note = NoteTeam.query.filter_by(user_id=g.user.id, team_id=team_id)
+        form = AddNoteTeam(obj=team_note.all()[0])
+    except:
+        form = AddNoteTeam()
 
-    recent_games = get_recent_games(20,team_id)
-    games = convert_gameday_format(recent_games)
-    if team:
-        return render_template("team.html", team=team, team_ids=fav_team_ids, games=games)
+    if form.validate_on_submit():
+        team_note.delete()
+        note = NoteTeam(
+            user_id=g.user.id,
+            team_id=team_id,
+            note=form.note.data)
+        db.session.add(note)
+        db.session.commit()
+        flash("Note added!","success")
+        return redirect(f"/team/{team_id}")
     else:
-        return redirect("/")
+        team = get_team_by_id(team_id)
+        fav_team_ids = [ team.team_id for team in g.user.favteams ]
+
+        recent_games = get_recent_games(20,team_id)
+        games = convert_gameday_format(recent_games)
+        if team:
+            return render_template("team.html", team=team, team_ids=fav_team_ids, games=games, form=form)
+        else:
+            return redirect("/")
 
 @app.route('/game/<int:game_id>')
 def show_game(game_id):

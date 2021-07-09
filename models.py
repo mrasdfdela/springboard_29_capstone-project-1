@@ -103,7 +103,7 @@ class NotePlayer(db.Model):
         db.Integer,
         db.ForeignKey('users.id'),
         nullable=False)
-    team_id = db.Column(
+    player_id = db.Column(
         db.Integer, 
         nullable=False)
     note = db.Column(
