@@ -8,7 +8,7 @@ from wtforms.fields.simple import PasswordField
 # from forms import 
 from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlayer
 from forms import AddUserForm, LoginForm, AddNotePlayer, AddNoteTeam
-from helpers import get_player_by_id, get_team_by_id,get_game_by_id, get_user_favteam_ids, get_user_favplayer_ids,  get_recent_games, convert_gameday_format, get_seas_avgs
+from helpers import get_player_by_id, get_team_by_id,get_game_by_id, get_user_favteam_ids, get_user_favplayer_ids,  get_recent_games, convert_gameday_format, get_seas_avgs, get_game_stats, get_player_stats_seas
 
 import pdb
 
@@ -93,7 +93,7 @@ def logout():
 # Show routes
 @app.route('/', methods=['GET','POST'])
 def homepage():
-    recent_games = get_recent_games(5)['data']
+    recent_games = get_recent_games(7)
     games = convert_gameday_format(recent_games)
     return render_template('index.html', games=games)
 
@@ -112,16 +112,18 @@ def show_user(user_id):
 @app.route('/player/<int:player_id>')
 def show_player(player_id):
     """Show player profile"""
+    fav_player_ids = [ p.player_id for p in g.user.favplayers ]
     player = get_player_by_id(player_id)
-    fav_player_ids = [ player.player_id for player in g.user.favplayers ]
+    seas_stats = get_player_stats_seas(player_id)
     season_avg = get_seas_avgs(player_id)
-    # pdb.set_trace()
+
     if player:
         return render_template(
           'player/player.html', 
-          player = player, 
           player_ids = fav_player_ids,
-          season_avg = season_avg)
+          player = player, 
+          season_avg = season_avg,
+          latest_games = seas_stats[:5])
     else:
         return redirect("/")
 
@@ -130,8 +132,11 @@ def show_team(team_id):
     """Show team profile"""
     team = get_team_by_id(team_id)
     fav_team_ids = [ team.team_id for team in g.user.favteams ]
+
+    recent_games = get_recent_games(20,team_id)
+    games = convert_gameday_format(recent_games)
     if team:
-        return render_template("team.html", team=team, team_ids=fav_team_ids)
+        return render_template("team.html", team=team, team_ids=fav_team_ids, games=games)
     else:
         return redirect("/")
 
@@ -140,8 +145,12 @@ def show_game(game_id):
     """Show game details"""
     game = get_game_by_id(game_id)
     game = convert_gameday_format([game])[0]
+    game_stats = get_game_stats(game_id)
     if game:
-        return render_template("game.html", game=game)
+        return render_template(
+          "game.html",
+          game=game,
+          game_stats=game_stats)
     else:
         return redirect("/")
 

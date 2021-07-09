@@ -3,14 +3,13 @@
 {% block content %}
 <div>
   <h1>
-    <a href="/team/{{ game['home_team']['id'] }}">
-      {{ game['home_team']['full_name'] }}
-    </a> {{ game['home_team_score'] }} 
-    to
     <a href="/team/{{ game['visitor_team']['id'] }}">
       {{ game['visitor_team']['full_name'] }}
     </a> {{ game['visitor_team_score'] }}
-    
+    to
+    <a href="/team/{{ game['home_team']['id'] }}">
+      {{ game['home_team']['full_name'] }}
+    </a> {{ game['home_team_score'] }} 
   </h1>
     
   <p>Final Score</p>
@@ -28,6 +27,116 @@
     {% endif %}
   {% endif %}
 </p>
+<h3>Box Score</h3>
+<h4>{{ game['visitor_team']['full_name'] }}</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope='col'>Player</th>
+      <th scope='col'>min</th>
+      <th scope='col'>fgm/a</th>
+      <th scope='col'>fg%</th>
+      <th scope='col'>3ptm/a</th>
+      <th scope='col'>3pt%</th>
+      <th scope='col'>ftm/a</th>
+      <th scope='col'>ft%</th>
+      <th scope='col'>oreb</th>
+      <th scope='col'>dreb</th>
+      <th scope='col'>reb</th>
+      <th scope='col'>ast</th>
+      <th scope='col'>stl</th>
+      <th scope='col'>blk</th>
+      <th scope='col'>TO</th>
+      <th scope='col'>PF</th>
+      <th scope='col'>pts</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in game_stats['data'] %}
+      {% if p['team']['id'] == game['visitor_team']['id']%}
+      <tr>
+        <td>
+          <a href="/player/{{ p['player']['id'] }}">
+            {{ p['player']['first_name'] }}
+            {{ p['player']['last_name'] }}
+          </a>
+        </td>
+        <td>{{ p['min'] }}</td>
+        <td>{{ p['fgm'] }}/{{ p['fga'] }}</td>
+        <td>{{ p['fg_pct'] }}</td>
+        <td>{{ p['fg3m'] }}/{{ p['fg3a'] }}</td>
+        <td>{{ p['fg3_pct'] }}</td>
+        <td>{{ p['ftm'] }}/{{ p['fta'] }}</td>
+        <td>{{ p['ft_pct'] }}</td>
+        <td>{{ p['oreb'] }}</td>
+        <td>{{ p['dreb'] }}</td>
+        <td>{{ p['reb'] }}</td>
+        <td>{{ p['ast'] }}</td>
+        <td>{{ p['stl'] }}</td>
+        <td>{{ p['blk'] }}</td>
+        <td>{{ p['turnover'] }}</td>
+        <td>{{ p['pf'] }}</td>
+        <td>{{ p['pts'] }}</td>
+      </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+<h4>{{ game['home_team']['full_name'] }}</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope='col'>Player</th>
+      <th scope='col'>min</th>
+      <th scope='col'>fga/m</th>
+      <th scope='col'>fg%</th>
+      <th scope='col'>3ptm/a</th>
+      <th scope='col'>3pt%</th>
+      <th scope='col'>ftm/a</th>
+      <th scope='col'>ft%</th>
+      <th scope='col'>oreb</th>
+      <th scope='col'>dreb</th>
+      <th scope='col'>reb</th>
+      <th scope='col'>ast</th>
+      <th scope='col'>stl</th>
+      <th scope='col'>blk</th>
+      <th scope='col'>TO</th>
+      <th scope='col'>PF</th>
+      <th scope='col'>pts</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in game_stats['data'] %}
+    {% if p['team']['id'] == game['home_team']['id']%}
+    <tr>
+      <td>
+        <a href="/player/{{ p['player']['id'] }}">
+          {{ p['player']['first_name'] }} 
+          {{ p['player']['last_name'] }}
+        </a>
+      </td>
+      <td>{{ p['min'] }}</td>
+      <td>{{ p['fgm'] }}/{{ p['fga'] }}</td>
+      <td>{{ p['fg_pct'] }}</td>
+      <td>{{ p['fg3m'] }}/{{ p['fg3a'] }}</td>
+      <td>{{ p['fg3_pct'] }}</td>
+      <td>{{ p['ftm'] }}/{{ p['fta'] }}</td>
+      <td>{{ p['ft_pct'] }}</td>
+      <td>{{ p['oreb'] }}</td>
+      <td>{{ p['dreb'] }}</td>
+      <td>{{ p['reb'] }}</td>
+      <td>{{ p['ast'] }}</td>
+      <td>{{ p['stl'] }}</td>
+      <td>{{ p['blk'] }}</td>
+      <td>{{ p['turnover'] }}</td>
+      <td>{{ p['pf'] }}</td>
+      <td>{{ p['pts'] }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
 <form>
   <input type="button" value="&#8592 Back" onclick="history.back()">
 </form>

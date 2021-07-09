@@ -14,7 +14,55 @@
   <p>Height: {{ player['height_feet'] }}'{{ player['height_inches'] }}"</p>
   <p>Weight: {{ player['weight_pounds'] }}-lbs</p>
   <p>Team: <a href='/team/{{ player["team"]["id"] }}'>{{ player['team']['full_name'] }}</a></p>
-  <p>Stats:</p>
+  <h3>Recent Games:</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope='col'>Date</th>
+        <th scope='col'>min</th>
+        <th scope='col'>fgm/a</th>
+        <th scope='col'>fg%</th>
+        <th scope='col'>3ptm/a</th>
+        <th scope='col'>3pt%</th>
+        <th scope='col'>ftm/a</th>
+        <th scope='col'>ft%</th>
+        <th scope='col'>oreb</th>
+        <th scope='col'>dreb</th>
+        <th scope='col'>reb</th>
+        <th scope='col'>ast</th>
+        <th scope='col'>stl</th>
+        <th scope='col'>blk</th>
+        <th scope='col'>TO</th>
+        <th scope='col'>PF</th>
+        <th scope='col'>pts</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for g in latest_games %}
+      <tr>
+        <td>{{ g['game']['date'] }}</td>
+        <td>{{ g['min'] }}</td>
+        <td>{{ g['fgm'] }}/{{ g['fga'] }}</td>
+        <td>{{ g['fg_pct'] }}</td>
+        <td>{{ g['fg3m'] }}/{{ g['fg3a'] }}</td>
+        <td>{{ g['fg3_pct'] }}</td>
+        <td>{{ g['ftm'] }}/{{ g['fta'] }}</td>
+        <td>{{ g['ft_pct'] }}</td>
+        <td>{{ g['oreb'] }}</td>
+        <td>{{ g['dreb'] }}</td>
+        <td>{{ g['reb'] }}</td>
+        <td>{{ g['ast'] }}</td>
+        <td>{{ g['stl'] }}</td>
+        <td>{{ g['blk'] }}</td>
+        <td>{{ g['turnover'] }}</td>
+        <td>{{ g['pf'] }}</td>
+        <td>{{ g['pts'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Season Averages:</h3>
   <table class="table">
     <thead>
       <tr>
@@ -63,6 +111,7 @@
       {% endfor %}
     </tbody>
   </table>
+
   <form>
     <input type="button" value="&#8592 Back" onclick="history.back()">
   </form>
