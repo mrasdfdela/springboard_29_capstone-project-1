@@ -15,7 +15,7 @@
     <h3>Division: {{ team['division'] }}</h3>
   </div>
   <div>
-  <h3>Player Notes</h3>
+  <h3>Team Notes</h3>
   <form method='post'>
     {{ form.hidden_tag() }}
     {% for field in form if field.widget.input_type != 'hidden' %}

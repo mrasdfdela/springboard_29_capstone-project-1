@@ -16,13 +16,13 @@ class User(db.Model):
 
     favplayers = db.relationship('FavPlayer', backref='users')
     favteams = db.relationship('FavTeam', backref='users')
-    notesplayers = db.relationship('NoteTeam', backref='users')
-    notesteams = db.relationship('NotePlayer', backref='users')
+    notesplayers = db.relationship('NotePlayer', backref='users')
+    notesteams = db.relationship('NoteTeam', backref='users')
 
     @classmethod
     def signup(cls, username, email, password):
         """Sign up user using hashed password"""
-        hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+        hashed_pwd = bcrypt.generate_password_hash(password).decode('utf-8')
 
         user = User(
           username = username,
@@ -36,7 +36,9 @@ class User(db.Model):
         """Authentication for login"""
         user = cls.query.filter_by(username=username).first()
         if user:
-            is_auth = bcrypt.check_password_hash(user.password, password)
+            # import pdb
+            # pdb.set_trace()
+            is_auth = bcrypt.check_password_hash(user.password, password.encode())
             if is_auth:
                 return user
         return False
