@@ -3,6 +3,7 @@
 {% block content %}
   <div>
     <h1>{{ team['full_name'] }}
+      {% if team_ids %}
       <button class="btn btn-default like-team" data-team-id="{{ team['id']}}" >
         {% if team['id'] in team_ids %}
           <i class="fas fa-star"></i>
@@ -10,11 +11,13 @@
           <i class="far fa-star"></i>
         {% endif %}
       </button>
+      {% endif %}
     </h1>
     <h3>Conference: {{ team['conference'] }}</h3>
     <h3>Division: {{ team['division'] }}</h3>
   </div>
   <div>
+  {% if team_ids %}
   <h3>Team Notes</h3>
   <form method='post'>
     {{ form.hidden_tag() }}
@@ -25,10 +28,10 @@
     <button>Submit</button>
     <button>Cancel</button>
   </form>
-  
+  {% endif %}
 
   {% if games|length == 0 %}
-    <h3>No Recent Games</h3>
+    <h4>No Recent Games</h4>
   {% else %}
     <h3>Latest Games</h3>
     <ul>

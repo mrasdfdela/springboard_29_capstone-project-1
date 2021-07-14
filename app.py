@@ -8,7 +8,7 @@ from wtforms.fields.simple import PasswordField
 # from forms import 
 from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlayer
 from forms import AddUserForm, LoginForm, AddNotePlayer, AddNoteTeam
-from helpers import get_player_by_id, get_team_by_id,get_game_by_id, get_user_favteam_ids, get_user_favplayer_ids,  get_recent_games, convert_gameday_format, get_seas_avgs, get_game_stats, get_player_stats_seas
+from helpers import get_player_by_id, get_team_by_id,get_game_by_id, get_user_favteam_ids, get_user_favplayer_ids,  get_recent_games_by_days, convert_games_date_format, convert_player_gm_dt_fmt, get_seas_avgs, get_game_stats, get_player_stats_seas
 
 import pdb
 
@@ -89,12 +89,33 @@ def logout():
       flash ("Logged out.", "danger")
   return redirect('/')
 
+@app.route('/user', methods=["GET", "POST"])
+def profile():
+    """Update profile for current user."""
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/login")
+
+    form = AddUserForm(obj=g.user)
+    if form.validate_on_submit():
+        try: 
+            user = User.authenticate(form.username.data, form.password.data)
+            user.username=form.username.data
+            user.email=form.email.data
+            db.session.commit()
+            flash("Edit recorded!", "success")
+            return redirect(f'/user')
+        except:
+            flash("Invalid password/input","danger")
+            return redirect('/user')
+
+    return render_template("/user/edit.html", form=form)
 
 # Show routes
 @app.route('/', methods=['GET','POST'])
 def homepage():
-    recent_games = get_recent_games(7)
-    games = convert_gameday_format(recent_games)
+    recent_games = get_recent_games_by_days(7)
+    games = convert_games_date_format(recent_games)
     return render_template('index.html', games=games)
 
 @app.route('/user/<int:user_id>')
@@ -109,9 +130,10 @@ def show_user(user_id):
     else:
         return redirect(f"/user/{g.user.id}")
 
-@app.route('/player/<int:player_id>')
+@app.route('/player/<int:player_id>',methods=['GET','POST'])
 def show_player(player_id):
     """Show player profile"""
+
     try:
         player_note = NotePlayer.query.filter_by(user_id=g.user.id, player_id=player_id)
         form = AddNotePlayer(obj=player_note.all()[0])
@@ -129,18 +151,24 @@ def show_player(player_id):
         flash("Note added!","success")
         return redirect(f"/player/{player_id}")
     else:
-        fav_player_ids = [ p.player_id for p in g.user.favplayers ]
+        try:
+            fav_player_ids = [ p.player_id for p in g.user.favplayers ]
+        except:
+            fav_player_ids = False
         player = get_player_by_id(player_id)
         seas_stats = get_player_stats_seas(player_id)
+        latest_games = convert_player_gm_dt_fmt(seas_stats[:5])
+
         season_avg = get_seas_avgs(player_id)
 
         if player:
             return render_template(
               'player/player.html', 
+              user = g.user,
               player_ids = fav_player_ids,
               player = player, 
               season_avg = season_avg,
-              latest_games = seas_stats[:5],
+              latest_games = latest_games,
               form=form)
         else:
             return redirect("/")
@@ -166,10 +194,13 @@ def show_team(team_id):
         return redirect(f"/team/{team_id}")
     else:
         team = get_team_by_id(team_id)
-        fav_team_ids = [ team.team_id for team in g.user.favteams ]
+        try:
+            fav_team_ids = [ team.team_id for team in g.user.favteams ]
+        except:
+            fav_team_ids = False
 
-        recent_games = get_recent_games(20,team_id)
-        games = convert_gameday_format(recent_games)
+        recent_games = get_recent_games_by_days(20,team_id)
+        games = convert_games_date_format(recent_games)
         if team:
             return render_template("team.html", team=team, team_ids=fav_team_ids, games=games, form=form)
         else:
@@ -179,7 +210,7 @@ def show_team(team_id):
 def show_game(game_id):
     """Show game details"""
     game = get_game_by_id(game_id)
-    game = convert_gameday_format([game])[0]
+    game = convert_games_date_format([game])[0]
     game_stats = get_game_stats(game_id)
     if game:
         return render_template(

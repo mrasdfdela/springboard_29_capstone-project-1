@@ -2,6 +2,7 @@
 
 {% block content %}
   <h1>{{ player['first_name'] }} {{ player['last_name'] }}
+    {% if player_ids %}
     <button class="btn btn-default like-player" data-player-id="{{ player['id']}}">
       {% if player['id'] in player_ids %}
       <i class="fas fa-star"></i>
@@ -9,11 +10,13 @@
       <i class="far fa-star"></i>
       {% endif %}
     </button>
+    {% endif %}
   </h1>
   <p>Position: {{ player['position'] }}</p>
   <p>Height: {{ player['height_feet'] }}'{{ player['height_inches'] }}"</p>
   <p>Weight: {{ player['weight_pounds'] }}-lbs</p>
   <p>Team: <a href='/team/{{ player["team"]["id"] }}'>{{ player['team']['full_name'] }}</a></p>
+  {% if player_ids %}
   <h3>Player Notes</h3>
   <form method='post'>
     {{ form.hidden_tag() }}
@@ -24,6 +27,7 @@
     <button>Submit</button>
     <button>Cancel</button>
   </form>
+  {% endif %}
   <h3>Recent Games:</h3>
   <table class="table">
     <thead>

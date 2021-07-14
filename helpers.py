@@ -43,7 +43,7 @@ def get_user_favplayer_ids(user_id):
     return player_ids
 
 # Get game and player stats
-def get_recent_games(days, team_id=None):
+def get_recent_games_by_days(days, team_id=None):
     try:
         start_date = datetime.now() - timedelta(days=days)
         resp = requests.get(
@@ -90,7 +90,7 @@ def get_player_stats_seas(id):
           current_page = resp.json()['meta']['current_page']
           total_pages = resp.json()['meta']['total_pages']
     except:
-        return None
+        return []
     return sort_player_stats(player_stats)
 
 def get_player_stats(player_id, year, records):
@@ -129,11 +129,15 @@ def str_to_date(str):
             pass
     return date.strftime("%A, %B %d")
 
-def convert_gameday_format(games):
-    new_games = games
-    for game in new_games:
+def convert_games_date_format(games):
+    for game in games:
         game['date'] = str_to_date(game['date'])
-    return new_games
+    return games
+
+def convert_player_gm_dt_fmt(player_games):
+    for p_gm in player_games:
+        p_gm['game']['date'] = str_to_date(p_gm['game']['date'])
+    return player_games
 
 def get_season_yr():
     curr_yr = datetime.now().year

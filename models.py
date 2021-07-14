@@ -11,7 +11,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, nullable=False, unique=True)
-    email = db.Column(db.Text, nullable=True)
+    email = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
 
     favplayers = db.relationship('FavPlayer', backref='users')
