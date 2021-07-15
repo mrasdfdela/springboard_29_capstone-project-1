@@ -20,7 +20,7 @@ The balldontlie API can be used to query NBA stats and information, updated once
 <details>
   <summary>Players</summary>
   <strong>GET </strong> https://www.balldontlie.io/api/v1/players</br>
-  ![image](https://user-images.githubusercontent.com/33531005/125836556-ddcd47c6-d926-4773-b32c-9256f13e97d7.png)
+  <img src="https://user-images.githubusercontent.com/33531005/125836556-ddcd47c6-d926-4773-b32c-9256f13e97d7.png">
 </details>
 <details>
   <summary>Games</summary>
