@@ -17,21 +17,26 @@ Note: The rendered webpages use JS libraries that reference Bootstrap, Font Awes
 
 ## API
 The balldontlie API can be used to query NBA stats and information, updated once every ~10 minutes. The API can be accessed via applications like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/)
-<Players>
-**GET** `https://www.balldontlie.io/api/v1/players`
-</Players>
-<Teams>
-**GET** `https://www.balldontlie.io/api/v1/teams`
-</Teams>
-<Teams>
-**GET** `https://www.balldontlie.io/api/v1/games`
-</Teams>
-<Teams>
-**GET** `https://www.balldontlie.io/api/v1/stats`
-</Teams>
-<Teams>
-**GET** `https://www.balldontlie.io/api/v1/stats`
-</Teams>
+<details>
+  <summary>Players</summary>
+  **GET** `https://www.balldontlie.io/api/v1/players`
+</details>
+<details>
+  <summary>Teams</summary>
+  **GET** `https://www.balldontlie.io/api/v1/teams`
+</details>
+<details>
+  <summary>Games</summary>
+  **GET** `https://www.balldontlie.io/api/v1/games`
+</details>
+<details>
+  <summary>Stats</summary>
+  **GET** `https://www.balldontlie.io/api/v1/stats`
+</details>
+<details>
+  <summary>Season Averages</summary>
+  **GET** `https://www.balldontlie.io/api/v1/season_averages`
+</details>
 For more information, go refer to [the website](https://www.balldontlie.io/#introduction)
 
 ## 
