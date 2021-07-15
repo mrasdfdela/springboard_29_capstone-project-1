@@ -63,7 +63,18 @@ For more information, go refer to [the website](https://www.balldontlie.io/#intr
 ## Endpoints
 Endpoints can be roughly categorized by 1) User 2) Show 3) Like/Unlike
 - User
-    -  
+    -  `/login`
+    -  `/logout`
+    -  `/user/edit` - displays a form for editing a User's username or email
+- Show
+    -  `/` - returns the homepage
+    -  `/user/{user_id}` - returns lists of user's favorite teams and players
+    -  `/player/{player_id}` - returns the player page or posts a user note about the player
+    -  `/team/{team_id}` - returns the team page or posts a user note about the team
+    -  `/game/{game_id}` - returns the game page
+- Like / Unlike
+    -  `/user/{user_id}/fav_player` - post/delete routes adding/removing a favorite player
+    -  `/user/{user_id}/fav_team` - post/delete routes adding/removing a favorite team
 
 ## Technologies
 This site uses a Flask stack and includes these libraries:
