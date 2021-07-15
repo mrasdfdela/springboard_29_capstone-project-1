@@ -67,7 +67,7 @@ Endpoints can be roughly categorized by 1) User 2) Show 3) Like/Unlike
     -  `/logout`
     -  `/user/edit` - displays a form for editing a User's username or email
 - Show
-    -  `/` - returns the homepage
+    -  `/` - returns a homepage listing recently played games
     -  `/user/{user_id}` - returns lists of user's favorite teams and players
     -  `/player/{player_id}` - returns the player page or posts a user note about the player
     -  `/team/{team_id}` - returns the team page or posts a user note about the team
