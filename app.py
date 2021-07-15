@@ -163,7 +163,7 @@ def show_player(player_id):
 
         if player:
             return render_template(
-              'player/player.html', 
+              'player.html', 
               user = g.user,
               player_ids = fav_player_ids,
               player = player, 

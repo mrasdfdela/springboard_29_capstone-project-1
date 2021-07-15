@@ -3,25 +3,39 @@
 {% block content %}
 <div>
   <h1>{{ user['username'] }}'s Favorites</h1>
-  <h2>Favorite Players</h2>
-  <ul>
-    {% for player in players %}
-    <li>
-      <a href="/player/{{ player['id'] }}">
-        {{ player['first_name']}} {{ player['last_name']}} - {{ player['team']['full_name']}}
-      </a>
-    </li>
-      {% endfor %}
-  </ul>
-  <h2>Favorite Teams</h2>
-  <ul>
-    {% for team in teams %}
-    <li>
-      <a href="/team/{{ team['id'] }}">
-        {{ team['name']}}, {{team['conference']}}ern Conference, {{ team['division'] }} division
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div class="card mt-3">
+        <div class="card-header">Favorite Players</div>
+        <ul class="list-group list-group-flush">
+          {% for player in players %}
+          <li class="list-group-item">
+            <a href="/player/{{ player['id'] }}">
+              {{ player['first_name']}} {{ player['last_name']}} - {{ player['team']['full_name']}}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div class="card mt-3">
+        <div class="card-header">Favorite Teams</div>
+        <ul class="list-group list-group-flush">
+          {% for team in teams %}
+          <li class="list-group-item">
+            <a href="/team/{{ team['id'] }}">
+              {{ team['name']}}, {{team['conference']}}ern Conference, {{ team['division'] }} division
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
 </div>
 {% endblock %}

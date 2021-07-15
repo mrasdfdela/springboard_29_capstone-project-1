@@ -1,0 +1,239 @@
+.table-striped.ATL > thead {
+  color: #c1d32f;
+  background-color: #e03a3e;
+}
+.table-striped.ATL > tbody > tr > td {
+  color: #26282a;
+}
+
+.table-striped.BOS > thead {
+  color: white;
+  background-color: #008348;
+}
+.table-striped.BOS > tbody > tr > td {
+  color: #005d33;
+}
+
+.table-striped.BKN > thead {
+  color: white;
+  background-color: black;
+}
+.table-striped.BKN > tbody > tr > td {
+  color: black;
+}
+
+.table-striped.CHA > thead {
+  color: white;
+  background-color: #00788c;
+}
+.table-striped.CHA > tbody > tr > td {
+  color: #1d1160;
+}
+
+.table-striped.CHI > thead {
+  color: black;
+  background-color: #ce1141;
+}
+.table-striped.CHI > tbody > tr > td {
+  color: black;
+}
+
+.table-striped.CLE > thead {
+  color: #ffb81c;
+  background-color: #6f263d;
+}
+.table-striped.CLE > tbody > tr > td {
+  color: 	#041e42;
+}
+
+.table-striped.DAL > thead {
+  color: #bbc4ca;
+  background-color: #0053bc;
+}
+.table-striped.DAL > tbody > tr > td {
+  color: #00285e;
+}
+
+.table-striped.DEN > thead {
+  color: #fec524;
+  background-color: #1b417a;
+}
+.table-striped.DEN > tbody > tr > td {
+  color: #244289;
+}
+
+.table-striped.DET > thead {
+  color: #ee2e4d;
+  background-color: #2859bc;
+}
+.table-striped.DET > tbody > tr > td {
+  color: #1d428a;
+}
+
+.table-striped.GSW > thead {
+  color: #fdb927;
+  background-color: #006bb6;
+}
+.table-striped.GSW > tbody > tr > td {
+  color: #26282a;
+}
+
+.table-striped.HOU > thead {
+  color:	#c4ced4;
+  background-color: #ce1141;
+}
+.table-striped.HOU > tbody > tr > td {
+  color: #000000;
+}
+
+.table-striped.IND > thead {
+  color: 	#002d62;
+  background-color: #fdbb30;
+}
+.table-striped.IND > tbody > tr > td {
+  color: 	#002d62;
+}
+
+.table-striped.LAC > thead {
+  color: 	#ef3150;
+  background-color: #2a5fc7;
+}
+.table-striped.LAC > tbody > tr > td {
+  color: #1d428a;
+}
+
+.table-striped.LAL > thead {
+  color: #fdb927;
+  background-color: #552583;
+}
+.table-striped.LAL > tbody > tr > td {
+  color: #552583;
+}
+
+.table-striped.MEM > thead {
+  color: white;
+  background-color: #12173f;
+}
+.table-striped.MEM > tbody > tr > td {
+  color: #12173f;
+}
+
+.table-striped.MIA > thead {
+  color: #fab349;
+  background-color: #98002e;
+}
+.table-striped.MIA > tbody > tr > td {
+  color: #000000;
+}
+
+.table-striped.MIL > thead {
+  background-color: #00471B;
+  color: #eee1c6;
+}
+.table-striped.MIL > tbody > tr > td {
+  color: #00471B;
+}
+
+.table-striped.MIN > thead {
+  color: #78be20;
+  background-color: #236192;
+}
+.table-striped.MIN > tbody > tr > td {
+  color: #0c2340;
+}
+
+.table-striped.NOP > thead {
+  color: #c6b081;
+  background-color: #002b5c;
+}
+.table-striped.NOP > tbody > tr > td {
+  color: #002b5c;
+}
+
+.table-striped.NYK > thead {
+  color: #f58426;
+  background-color: #19459E;
+}
+.table-striped.NYK > tbody > tr > td {
+  color: #042561;
+}
+
+.table-striped.OKC > thead {
+  color: #fdc753;
+  background-color: #007ac1;
+}
+.table-striped.OKC > tbody > tr > td {
+  color: #002d62;
+}
+
+.table-striped.ORL > thead {
+  color: #c4ced4;
+  background-color: 	#0077c0;
+}
+.table-striped.ORL > tbody > tr > td {
+  color: #000000;
+}
+
+.table-striped.PHI > thead {
+  color: #eaedef;
+  background-color:	#006bb6;
+}
+.table-striped.PHI > tbody > tr > td {
+  color: #006bb6;
+}
+
+.table-striped.PHX > thead {
+  color: #1d1160;
+  background-color: #f9a01b;
+}
+.table-striped.PHX > tbody > tr > td {
+  color: #1d1160;
+}
+
+.table-striped.POR > thead {
+  color: #1d1160;
+  background-color: #f9a01b;
+}
+.table-striped.POR > tbody > tr > td {
+  color: #1d1160;
+}
+
+.table-striped.SAC > thead {
+  color: #d1d7da;
+  background-color: #5a2b81;
+}
+.table-striped.SAC > tbody > tr > td {
+  color: 	#000000;
+}
+
+.table-striped.SAS > thead {
+  color: 	#000000;
+  background-color: #c4ced4;
+}
+.table-striped.SAS > tbody > tr > td {
+  color: 	#000000;
+}
+
+.table-striped.TOR > thead {
+  color: #ececec;
+  background-color: #ce1141;
+}
+.table-striped.TOR > tbody > tr > td {
+  color: #000000;
+}
+
+.table-striped.UTA > thead {
+  color: #f9a01b;
+  background-color: #00471b;
+}
+.table-striped.UTA > tbody > tr > td {
+  color: #002b5c;
+}
+
+.table-striped.WAS > thead {
+  color: #c4ced4;
+  background-color: #002b5c;
+}
+.table-striped.WAS > tbody > tr > td {
+  color: #002b5c;
+}

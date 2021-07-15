@@ -12,24 +12,28 @@
     </button>
     {% endif %}
   </h1>
-  <p>Position: {{ player['position'] }}</p>
-  <p>Height: {{ player['height_feet'] }}'{{ player['height_inches'] }}"</p>
-  <p>Weight: {{ player['weight_pounds'] }}-lbs</p>
-  <p>Team: <a href='/team/{{ player["team"]["id"] }}'>{{ player['team']['full_name'] }}</a></p>
-  {% if player_ids %}
-  <h3>Player Notes</h3>
-  <form method='post'>
-    {{ form.hidden_tag() }}
-    {% for field in form if field.widget.input_type != 'hidden' %}
-    {{ field.label }}
-    {{ field }}
-    {% endfor %}
-    <button>Submit</button>
-    <button>Cancel</button>
-  </form>
+  <div class='row mb-6'>
+    <div class='col-6'>
+      <p class='mt-2 mb-1'>Position: {{ player['position'] }}</p>
+      <p class='mb-1'>Height: {{ player['height_feet'] }}'{{ player['height_inches'] }}"</p>
+      <p class='mb-1'>Weight: {{ player['weight_pounds'] }}-lbs</p>
+      <p class='mb-1'>Team: <a href='/team/{{ player["team"]["id"] }}'>{{ player['team']['full_name'] }}</a></p>
+      {% if player_ids %}
+    </div>
+    <div class='col-6'>
+      <h5>Player Notes</h5>
+      <form method='post'>
+        {{ form.hidden_tag() }}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        {{ field(class="form-control") }}
+        {% endfor %}
+        <button class='mt-1'>Submit</button>
+      </form>
+    </div>
   {% endif %}
-  <h3>Recent Games:</h3>
-  <table class="table">
+  </div>
+  <h3 class='mt-5'>Recent Games:</h3>
+  <table class="table table-striped {{ player['team']['abbreviation'] }}">
     <thead>
       <tr>
         <th scope='col'>Date</th>
@@ -77,7 +81,7 @@
   </table>
 
   <h3>Season Averages:</h3>
-  <table class="table">
+  <table class="table table-striped {{ player['team']['abbreviation'] }}">
     <thead>
       <tr>
         <th scope='col'>Yr</th>

@@ -1,35 +1,61 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-  <h1>
-    <a href="/team/{{ game['visitor_team']['id'] }}">
-      {{ game['visitor_team']['full_name'] }}
-    </a> {{ game['visitor_team_score'] }}
-    to
-    <a href="/team/{{ game['home_team']['id'] }}">
-      {{ game['home_team']['full_name'] }}
-    </a> {{ game['home_team_score'] }} 
-  </h1>
-    
-  <p>Final Score</p>
-  <h3>{{ game['date'] }}</h3>
-</div>
-<p>Notes:
-  {% if game['postseason'] %}
-    {{ game['home_team']['conference'] }}ern Conference Playoffs
+<h1 class="mt-3 mb-2">{{ game['date'] }}</h1>
+<div class="row mb-6">
+  <div class="col-6">
+    <div class="card">
+      <div class="card-header text-center">
+        <h1 class="card-title">
+          <a href="/team/{{ game['visitor_team']['id'] }}">
+            {{ game['visitor_team']['full_name'] }}
+          </a>
+        </h1>
+      </div>
+      <div class="card-body text-center">
+        <h3>
+          {{ game['visitor_team_score'] }}
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-header text-center">
+        <h1 class="card-title">
+          <a href="/team/{{ game['home_team']['id'] }}">
+            {{ game['home_team']['full_name'] }}
+          </a>
+        </h1>
+      </div>
+      <div class="card-body text-center">
+        <h3>
+          {{ game['home_team_score'] }}
+        </h3>
+      </div>
+    </div>
+  </div>
+  {% if game['status'] == "Final" %}
+  <p class='mb-0'>Final Score</p>
   {% else %}
+  <p class='mb-0'>Status: {{ game['status'] }}</p>
+  {% endif %}
+  <p class='mt-0'>Notes:
+    {% if game['postseason'] %}
+    {{ game['home_team']['conference'] }}ern Conference Playoffs
+    {% else %}
     {% if game['home_team']['conference'] == game['visitor_team']['conference'] %}
-      In-conference game
+    In-conference game
     {% endif %}
     {% if game['home_team']['division'] == game['visitor_team']['division'] %}
-      In-division game
+    In-division game
     {% endif %}
-  {% endif %}
-</p>
-<h3>Box Score</h3>
+    {% endif %}
+  </p>
+</div>
+<h3 class="mt-2">Box Score</h3>
 <h4>{{ game['visitor_team']['full_name'] }}</h4>
-<table class="table">
+<table class="table table-striped {{ game['visitor_team']['abbreviation'] }}">
   <thead>
     <tr>
       <th scope='col'>Player</th>
@@ -84,7 +110,7 @@
 </table>
 
 <h4>{{ game['home_team']['full_name'] }}</h4>
-<table class="table">
+<table class="table table-striped {{ game['home_team']['abbreviation'] }}">
   <thead>
     <tr>
       <th scope='col'>Player</th>
