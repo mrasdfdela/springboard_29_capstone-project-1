@@ -3,9 +3,7 @@
 
 ## Introduction
 This project involves using the [ball don't lie API](https://ball-dont-lie.herokuapp.com/) to gather NBA stats and display then in different pages. Namely, this site includes:
-<details>
-  <summary>A homepage with recent NBA games</summary>
-</details>
+-A homepage with recent NBA games
 - Game pages with the box score
 - Team pages with latest games
 - Player pages with stats of latest games and season average
@@ -19,22 +17,21 @@ Note: The rendered webpages use JS libraries that reference Bootstrap, Font Awes
 
 ## API
 The balldontlie API can be used to query NBA stats and information, updated once every ~10 minutes. The API can be accessed via applications like [Insomnia](https://insomnia.rest/) or [Postman](https://www.postman.com/)
-<details>
-Players - **GET** `https://www.balldontlie.io/api/v1/players`
-</details>
-<details>
-Teams - **GET** `https://www.balldontlie.io/api/v1/teams`
-</details>
-<details>
-Games - **GET** `https://www.balldontlie.io/api/v1/games`
-</details>
-<details>
-Game Stats - **GET** `https://www.balldontlie.io/api/v1/stats`
-</details>
-<details>
-Season Averages - **GET** `https://www.balldontlie.io/api/v1/stats`
-</details>
-<details>
+<Players>
+**GET** `https://www.balldontlie.io/api/v1/players`
+</Players>
+<Teams>
+**GET** `https://www.balldontlie.io/api/v1/teams`
+</Teams>
+<Teams>
+**GET** `https://www.balldontlie.io/api/v1/games`
+</Teams>
+<Teams>
+**GET** `https://www.balldontlie.io/api/v1/stats`
+</Teams>
+<Teams>
+**GET** `https://www.balldontlie.io/api/v1/stats`
+</Teams>
 For more information, go refer to [the website](https://www.balldontlie.io/#introduction)
 
 ## 
