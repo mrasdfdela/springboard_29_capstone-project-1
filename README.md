@@ -2,10 +2,10 @@
 **Capstone Project 1 for Springboard**
 
 ## Introduction
-This project involves using the [ball don't lie API](https://ball-dont-lie.herokuapp.com/) to gather NBA stats and display then in different pages. Namely, this site includes:
--A homepage with recent NBA games
+This project uses the [ball don't lie API](https://ball-dont-lie.herokuapp.com/) to gather NBA stats and display them in different pages. Namely, this site includes:
+- A homepage with recent NBA games
 - Game pages with the box score
-- Team pages with latest games
+- Team pages with their latest games
 - Player pages with stats of latest games and season average
 - Pages for signing up, logging in, and editing the user
 
@@ -44,4 +44,34 @@ The balldontlie API can be used to query NBA stats and information, updated once
 </details>
 For more information, go refer to [the website](https://www.balldontlie.io/#introduction)
 
-## 
+## Pages
+- Pages for signing up, logging in, and editing the user
+    - Signup requires a username, email, and password
+    - Signing in allows users to "like" and add record notes about their favorite teams.
+    - Users can update their username and email in the *Edit User* page
+- A homepage with recent NBA games
+    - Includes links to the respective team pages and game details
+- Game pages with the box score
+    - Includes links to the respective team pages and player pages
+- Team pages with their latest games
+    - Includes links to game pages
+    - Also includes a section for (signed in users) to add notes about the team
+- Player pages with stats of latest games and season average
+    - Includes links to team page
+    - Also includes a section for (signed in users) to add notes about the player
+
+## Endpoints
+Endpoints can be roughly categorized by 1) User 2) Show 3) Like/Unlike
+- User
+    -  
+
+## Technologies
+This site uses a Flask stack and includes these libraries:
+- PostgreSQL/Flask-SQLAlchemy
+- bcrypt/Flask-Bcrypt
+- WTForms/Flask-WTF
+- Requests
+- Bootstrap
+- Font Awesome
+- jQuery
+- Axios
