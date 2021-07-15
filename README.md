@@ -3,10 +3,13 @@
 
 ## Introduction
 This project involves using the [ball don't lie API](https://ball-dont-lie.herokuapp.com/) to gather NBA stats and display then in different pages. Namely, this site includes:
-- A homepage with recent NBA games
+<details>
+  <summary>A homepage with recent NBA games</summary>
+</details>
 - Game pages with the box score
 - Team pages with latest games
 - Player pages with stats of latest games and season average
+- Pages for signing up, logging in, and editing the user
 
 ## Libraries & Installation
 All Python libraries are located in the file `requirements.txt`. 
@@ -22,3 +25,5 @@ The balldontlie API can be used to query NBA stats and information, updated once
 - Game Stats - **GET** `https://www.balldontlie.io/api/v1/stats`
 - Season Averages - **GET** `https://www.balldontlie.io/api/v1/stats`
 For more information, go refer to [the website](https://www.balldontlie.io/#introduction)
+
+## 
