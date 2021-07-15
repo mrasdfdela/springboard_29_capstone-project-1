@@ -11,6 +11,7 @@ This project involves using the [ball don't lie API](https://ball-dont-lie.herok
 ## Libraries & Installation
 All Python libraries are located in the file `requirements.txt`. 
 > pip install - requirements.txt
+
 Note: The rendered webpages use JS libraries that reference Bootstrap, Font Awesome, jQuery, and Axios
 
 ## API
