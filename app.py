@@ -16,7 +16,7 @@ app = Flask(__name__)
 import os
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'postgres://pghmumipiprsfz:0465c3042b44f40ef7ec0f00bae1779889b386d2f139a0539b36eb1e8723f3c2@ec2-23-20-124-77.compute-1.amazonaws.com:5432/d5q5l5s0td7seh', 'postgres:///flask-heroku')
+    'DATABASE_URL', 'postgres://pghmumipiprsfz:0465c3042b44f40ef7ec0f00bae1779889b386d2f139a0539b36eb1e8723f3c2@ec2-23-20-124-77.compute-1.amazonaws.com:5432/d5q5l5s0td7seh')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
