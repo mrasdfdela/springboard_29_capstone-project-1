@@ -2,6 +2,7 @@
 **Capstone Project 1 for Springboard**
 
 ## Introduction
+https://jerryhsu-balldontlie.herokuapp.com/
 This project uses the [ball don't lie API](https://ball-dont-lie.herokuapp.com/) to gather NBA stats and display them in different pages. Namely, this site includes:
 - A homepage with recent NBA games
 - Game pages with the box score
