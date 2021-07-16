@@ -10,13 +10,13 @@ from models import db, connect_db, User, FavTeam, FavPlayer, NoteTeam, NotePlaye
 from forms import AddUserForm, LoginForm, AddNotePlayer, AddNoteTeam
 from helpers import get_player_by_id, get_team_by_id,get_game_by_id, get_user_favteam_ids, get_user_favplayer_ids,  get_recent_games_by_days, convert_games_date_format, convert_player_gm_dt_fmt, get_seas_avgs, get_game_stats, get_player_stats_seas
 
-import pdb
-
 CURR_USER_KEY = "curr_user"
 app = Flask(__name__)
 
+import os
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ball-dont-lie'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'postgres://pghmumipiprsfz:0465c3042b44f40ef7ec0f00bae1779889b386d2f139a0539b36eb1e8723f3c2@ec2-23-20-124-77.compute-1.amazonaws.com:5432/d5q5l5s0td7seh', 'postgres:///flask-heroku')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
