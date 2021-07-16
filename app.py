@@ -16,14 +16,14 @@ app = Flask(__name__)
 import os
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 'postgresql:///ball-dont-lie')
+    'DATABASE_URL', 'postgresql:///ball-dont-lie'.replace("://", "ql://", 1))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
 connect_db(app)
 # db.create_all()
 
-app.config['SECRET_KEY'] = 'I have a secret'
+app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', 'I have a secret')
 
 # debug = DebugToolbarExtension(app)
 
