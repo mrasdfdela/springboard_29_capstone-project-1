@@ -6,13 +6,15 @@ CREATE TABLE users (
 );
 
 CREATE TABLE fav_teams (
-  user_id INTEGER NOT NULL PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
-  team_id INTEGER NOT NULL PRIMARY KEY
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  team_id INTEGER NOT NULL,
+  PRIMARY KEY (user_id, team_id)
 );
 
 CREATE TABLE fav_players (
-  user_id INTEGER NOT NULL PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
-  player_id INTEGER NOT NULL PRIMARY KEY
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  player_id INTEGER NOT NULL,
+  PRIMARY KEY (user_id, player_id)
 );
 
 CREATE TABLE team_notes (
