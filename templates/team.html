@@ -35,6 +35,7 @@
     <h4>No Recent Games</h4>
     {% else %}
     <h3 class="mt-5">Latest Games</h3>
+    {% if games %}
     {% for game in games %}
     <div class='col-sm-6 col-md-4 col-lg-2 mb-3'>
       <div class='card'>
@@ -58,6 +59,9 @@
       </div>
     </div>
     {% endfor %}
+    {% else %}
+    <p>No game data</p>
+    {% endif %}
     {% endif %}
     </div>
     {% for player in player_data %}

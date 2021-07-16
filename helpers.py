@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+
 import requests
 from datetime import datetime, timedelta
 
@@ -12,7 +13,7 @@ def get_player_by_id(id):
         resp = requests.get(f"https://www.balldontlie.io/api/v1/players/{id}")
         return resp.json()
     except:
-        return None
+        return False
 
 def get_team_by_id(id):
     try:
@@ -21,7 +22,7 @@ def get_team_by_id(id):
         )
         return resp.json()
     except:
-        return None
+        return False
 
 def get_game_by_id(id):
     try:
@@ -29,18 +30,24 @@ def get_game_by_id(id):
           f"https://www.balldontlie.io/api/v1/games/{id}")
         return resp.json()
     except:
-        return None
+        return False
 
 # Get user favorites
 def get_user_favteam_ids(user_id):
-    teams = User.query.get(user_id).favteams
-    team_ids = [ team.team_id for team in teams ]
-    return team_ids
-
+    try:
+        teams = User.query.get(user_id).favteams
+        team_ids = [ team.team_id for team in teams ]
+        return team_ids
+    except:
+        return False
+        
 def get_user_favplayer_ids(user_id):
-    players = User.query.get(user_id).favplayers
-    player_ids = [ player.player_id for player in players ]
-    return player_ids
+    try:
+        players = User.query.get(user_id).favplayers
+        player_ids = [ player.player_id for player in players ]
+        return player_ids
+    except:
+        return False
 
 # Get game and player stats
 def get_recent_games_by_days(days, team_id=None):
@@ -56,7 +63,7 @@ def get_recent_games_by_days(days, team_id=None):
         filtered_data = filter_recent_games(data)
         return sort_recent_games(filtered_data)
     except:
-        return None
+        return False
 
 def sort_recent_games(data):
     sorted_data = sorted(data, key=lambda x: datetime.strptime(x['date'], "%Y-%m-%dT%H:%M:%S.%fZ"), reverse=True)
@@ -74,37 +81,39 @@ def get_game_stats(id):
           })
         return resp.json()
     except:
-        return None
+        return False
 
 def get_player_stats_seas(id):
-    year = get_season_yr()
+    current_page = 1
+    total_pages = -1
     records = 55
-    player_stats = []
 
-    current_page = -1
-    total_pages = 1
+    year = get_season_yr()
+    player_stats = []
     try:
         while current_page != total_pages:
-          resp = get_player_stats(id,year,records)
+          resp = get_player_stats(current_page,records,id,year)
           player_stats.extend(resp.json()['data'])
-          current_page = resp.json()['meta']['current_page']
           total_pages = resp.json()['meta']['total_pages']
+          if total_pages != current_page:
+              current_page = resp.json()['meta']['current_page'] + 1
     except:
         return []
     return sort_player_stats(player_stats)
 
-def get_player_stats(player_id, year, records):
+def get_player_stats(page, records, player_id, year):
     try:
         resp = requests.get(
             f"https://www.balldontlie.io/api/v1/stats",
             params = {
+                "page": page,
+                "per_page":records,
                 "player_ids[]": player_id,
                 "seasons[]": year,
-                "per_page":records
             })
         return resp
     except:
-        return None
+        return False
 
 def sort_player_stats(data):
     sorted_data = sorted(data, key=lambda x: datetime.strptime(x['game']['date'], "%Y-%m-%dT%H:%M:%S.%fZ"), reverse=True)
@@ -118,7 +127,7 @@ def get_seas_avgs(id):
         })
         return resp.json()['data']
     except:
-        return None
+        return False
 
 # Date formatters
 def str_to_date(str):
@@ -147,36 +156,3 @@ def get_season_yr():
         return datetime.now().year
     else:
         return datetime.now().year - 1
-
-
-# def get_recent_games(days):
-#     year = get_season_yr()
-#     records = 20
-#     game_stats = []
-
-#     current_page = 0
-#     try:
-#         while len(game_stats) < 10:
-#             resp = get_game_stats(current_page,records,year)
-#             if current_page == 0:
-#                 current_page = resp['meta']['total_page']
-#             else:
-#                 game_stats.extend(resp)
-#                 current_page = current_page - 1
-
-#         return resp.json()
-#     except:
-#         return None
-
-# def get_game_stats(page,records,year):
-#     try:
-#         resp = requests.get(
-#             f"https://www.balldontlie.io/api/v1/games",
-#             params = {
-#                 "page":page,
-#                 "per_page":records,
-#                 "seasons[]": year
-#             })
-#         return resp
-#     except:
-#         return None

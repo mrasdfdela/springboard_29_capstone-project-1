@@ -89,7 +89,7 @@ def logout():
       flash ("Logged out.", "danger")
   return redirect('/')
 
-@app.route('/user', methods=["GET", "POST"])
+@app.route('/user/edit', methods=["GET", "POST"])
 def profile():
     """Update profile for current user."""
     if not g.user:
@@ -104,10 +104,10 @@ def profile():
             user.email=form.email.data
             db.session.commit()
             flash("Edit recorded!", "success")
-            return redirect(f'/user')
+            return redirect(f'/user/edit')
         except:
             flash("Invalid password/input","danger")
-            return redirect('/user')
+            return redirect('/user/edit')
 
     return render_template("/user/edit.html", form=form)
 
@@ -117,6 +117,10 @@ def homepage():
     recent_games = get_recent_games_by_days(7)
     games = convert_games_date_format(recent_games)
     return render_template('index.html', games=games)
+
+@app.route('/user')
+def redirect_user():
+    return redirect(f'/user/{g.user.id}')
 
 @app.route('/user/<int:user_id>')
 def show_user(user_id):
@@ -151,15 +155,12 @@ def show_player(player_id):
         flash("Note added!","success")
         return redirect(f"/player/{player_id}")
     else:
-        try:
-            fav_player_ids = [ p.player_id for p in g.user.favplayers ]
-        except:
-            fav_player_ids = False
         player = get_player_by_id(player_id)
+        season_avg = get_seas_avgs(player_id)
+        fav_player_ids = get_user_favplayer_ids(g.user.id)
+
         seas_stats = get_player_stats_seas(player_id)
         latest_games = convert_player_gm_dt_fmt(seas_stats[:5])
-
-        season_avg = get_seas_avgs(player_id)
 
         if player:
             return render_template(
@@ -167,8 +168,8 @@ def show_player(player_id):
               user = g.user,
               player_ids = fav_player_ids,
               player = player, 
-              season_avg = season_avg,
               latest_games = latest_games,
+              season_avg = season_avg,
               form=form)
         else:
             return redirect("/")
@@ -194,13 +195,11 @@ def show_team(team_id):
         return redirect(f"/team/{team_id}")
     else:
         team = get_team_by_id(team_id)
-        try:
-            fav_team_ids = [ team.team_id for team in g.user.favteams ]
-        except:
-            fav_team_ids = False
-
+        fav_team_ids = get_user_favteam_ids(g.user.id)
+        
         recent_games = get_recent_games_by_days(20,team_id)
         games = convert_games_date_format(recent_games)
+        
         if team:
             return render_template("team.html", team=team, team_ids=fav_team_ids, games=games, form=form)
         else:

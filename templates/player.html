@@ -56,6 +56,7 @@
       </tr>
     </thead>
     <tbody>
+      {% if latest_games %}
       {% for g in latest_games %}
       <tr>
         <td>{{ g['game']['date'] }}</td>
@@ -77,6 +78,10 @@
         <td>{{ g['pts'] }}</td>
       </tr>
       {% endfor %}
+      {% else %}
+      </tbody></table>
+      <p>No data available</p>
+      {% endif %}
     </tbody>
   </table>
 
@@ -105,6 +110,7 @@
       </tr>
     </thead>
     <tbody>
+      {% if season_avg %}
       {% for s in season_avg %}
       <tr>
         <td>{{ s['season'] }}</td>
@@ -127,6 +133,10 @@
         <td>{{ s['pts'] }}</td>
       </tr>
       {% endfor %}
+      {% else %}
+      </tbody></table>
+      <p>No data available</p>
+      {% endif %}
     </tbody>
   </table>
 
