@@ -16,7 +16,7 @@ app = Flask(__name__)
 import os
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 'postgresql:///ball-dont-lie').replace("://", "ql://", 1)
+    'DATABASE_URL'.replace("://", "ql://", 1), 'postgresql:///ball-dont-lie')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
@@ -125,10 +125,10 @@ def redirect_user():
 @app.route('/user/<int:user_id>')
 def show_user(user_id):
     if user_id == g.user.id:
-        team_ids = get_user_favteam_ids(user_id)
+        team_ids = get_user_favteam_ids()
         teams = [ get_team_by_id(id) for id in team_ids]
 
-        player_ids = get_user_favplayer_ids(user_id)
+        player_ids = get_user_favplayer_ids()
         players = [ get_player_by_id(id) for id in player_ids]
         return render_template('user/user.html', user=g.user, players=players, teams=teams)
     else:
@@ -157,7 +157,7 @@ def show_player(player_id):
     else:
         player = get_player_by_id(player_id)
         season_avg = get_seas_avgs(player_id)
-        fav_player_ids = get_user_favplayer_ids(g.user.id)
+        fav_player_ids = get_user_favplayer_ids()
 
         seas_stats = get_player_stats_seas(player_id)
         latest_games = convert_player_gm_dt_fmt(seas_stats[:5])
@@ -195,7 +195,7 @@ def show_team(team_id):
         return redirect(f"/team/{team_id}")
     else:
         team = get_team_by_id(team_id)
-        fav_team_ids = get_user_favteam_ids(g.user.id)
+        fav_team_ids = get_user_favteam_ids()
         
         recent_games = get_recent_games_by_days(20,team_id)
         games = convert_games_date_format(recent_games)
@@ -231,7 +231,7 @@ def fav_player(user_id):
             db.session.add(fav_player)
             db.session.commit()
 
-            player_ids = get_user_favplayer_ids(user_id)
+            player_ids = get_user_favplayer_ids()
             return jsonify(player_ids),201
         except:
             return redirect(f'/user/{g.user.id}')
@@ -240,7 +240,7 @@ def fav_player(user_id):
             FavPlayer.query.filter_by(user_id=user_id, player_id=request.args['player_id']).delete()
             db.session.commit()
 
-            player_ids = get_user_favplayer_ids(user_id)
+            player_ids = get_user_favplayer_ids()
             return jsonify(player_ids),201
         except:
             return redirect(f'/user/{g.user.id}')
@@ -258,7 +258,7 @@ def fav_team(user_id):
             db.session.add(fav_team)
             db.session.commit()
 
-            team_ids = get_user_favteam_ids(user_id)
+            team_ids = get_user_favteam_ids()
             return jsonify(team_ids),201
         except:
             return redirect(f'/user/{g.user.id}')
@@ -267,7 +267,7 @@ def fav_team(user_id):
             FavTeam.query.filter_by(user_id=user_id, team_id=request.args['team_id']).delete()
             db.session.commit()
 
-            team_ids = get_user_favteam_ids(user_id)
+            team_ids = get_user_favteam_ids()
             return jsonify(team_ids),201
         except:
             return redirect(f'/user/{g.user.id}')

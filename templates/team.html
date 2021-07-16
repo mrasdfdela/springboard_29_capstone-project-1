@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>{{ team['full_name'] }}
-    {% if team_ids %}
+    {% if team_ids is iterable %}
     <button class="btn btn-default like-team" data-team-id="{{ team['id']}}" >
       {% if team['id'] in team_ids %}
         <i class="fas fa-star"></i>

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, g
 
 import requests
 from datetime import datetime, timedelta
@@ -33,17 +33,17 @@ def get_game_by_id(id):
         return False
 
 # Get user favorites
-def get_user_favteam_ids(user_id):
+def get_user_favteam_ids():
     try:
-        teams = User.query.get(user_id).favteams
+        teams = User.query.get(g.user.id).favteams
         team_ids = [ team.team_id for team in teams ]
         return team_ids
     except:
         return False
         
-def get_user_favplayer_ids(user_id):
+def get_user_favplayer_ids():
     try:
-        players = User.query.get(user_id).favplayers
+        players = User.query.get(g.user.id).favplayers
         player_ids = [ player.player_id for player in players ]
         return player_ids
     except:
