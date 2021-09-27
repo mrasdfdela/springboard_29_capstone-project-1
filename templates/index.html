@@ -6,6 +6,14 @@
   </div>
   {% if games|length == 0 %}
   <h3>(No Recent Games)</h3>
+  <p>Why don't you take a look at some player stats instead?</p>
+  <ul>
+    <li href="/player/246">Nikola Jokic</li>
+    <li href="/player/145">Joel Embiid</li>
+    <li href="/player/115">Stephen Curry</li>
+    <li href="/player/15">Giannis Antetokounmpo</li>
+    <li href="/player/367">Chris Paul</li>
+  </ul>
   {% else %}
   <div class="row">
     {% for game in games %}
