@@ -59,7 +59,11 @@
       {% if latest_games %}
       {% for g in latest_games %}
       <tr>
-        <td>{{ g['game']['date'] }}</td>
+        <td>
+          <a href='/game/{{ g["game"]["id"] }}'>
+            {{ g['game']['date'] }}
+          </a>
+        </td>
         <td>{{ g['min'] }}</td>
         <td>{{ g['fgm'] }}/{{ g['fga'] }}</td>
         <td>{{ g['fg_pct'] }}</td>
